@@ -2,9 +2,11 @@ package com.yeyuan.project.util;
 
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
 import com.yeyuan.project.db.City;
 import com.yeyuan.project.db.County;
 import com.yeyuan.project.db.Province;
+import com.yeyuan.project.gson.Weather;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,6 +21,18 @@ import org.json.JSONObject;
  * 修改日期
  */
 public class Utility {
+
+    public static Weather handleWeatherResponse(String response) {
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray = jsonObject.getJSONArray("HeWeather");
+            String weatherContent = jsonArray.getJSONObject(0).toString();
+            return new Gson().fromJson(weatherContent, Weather.class);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     /**
      * 解析省级数据

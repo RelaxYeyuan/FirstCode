@@ -2,6 +2,7 @@ package com.yeyuan.project.ui.fragment;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -20,6 +21,7 @@ import com.yeyuan.project.constants.AppConstants;
 import com.yeyuan.project.db.City;
 import com.yeyuan.project.db.County;
 import com.yeyuan.project.db.Province;
+import com.yeyuan.project.ui.activity.WeatherActivity;
 import com.yeyuan.project.util.HttpUtils;
 import com.yeyuan.project.util.Utility;
 
@@ -91,6 +93,12 @@ public class ChooseAreaFragment extends Fragment {
                 } else if (currentLevel == LEVEL_CITY) {
                     selectedCity = cityList.get(position);
                     queryCounties();
+                } else if (currentLevel == LEVEL_COUNTY) {
+                    String weatherId = countyList.get(position).getWeatherId();
+                    Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                    intent.putExtra("weather_id", weatherId);
+                    startActivity(intent);
+                    getActivity().finish();
                 }
             }
         });
